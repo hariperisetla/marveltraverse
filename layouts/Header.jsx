@@ -25,7 +25,7 @@ const Header = () => {
   ];
 
   return (
-    <nav className="fixed flex w-full items-center p-3 bg-neutral-900 text-white justify-between">
+    <nav className="fixed flex w-full items-center p-3 bg-neutral-900 text-white justify-between z-10">
       <h1 className="pt-2 text-4xl md:text-5xl font-bold font-marvel uppercase tracking-wide">
         MARVEL TRAVERSE
       </h1>
@@ -41,7 +41,7 @@ const Header = () => {
             className="flex items-center"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
-            {theme === "dark" ? <MdLightMode /> : <MdDarkMode />}
+            {theme === "dark" ? <MdDarkMode /> : <MdLightMode />}
           </button>
         </li>
       </ul>
