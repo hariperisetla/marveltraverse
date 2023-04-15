@@ -5,25 +5,20 @@ import { useState } from "react";
 
 import { MD5 } from "crypto-js";
 import Image from "next/image";
+import Link from "next/link";
+import Env from "../utils/env";
 
 export const getStaticProps = async () => {
   const apiUrl = process.env.BASE_URL;
   const apiKey = process.env.API_KEY;
   const privateKey = process.env.PRIVATE_API_KEY;
 
-  const getHash = (ts, secretKey, publicKey) => {
-    return MD5(ts + secretKey + publicKey);
-  };
-
-  let value = "hulk";
-
-  let baseUrl = `${apiUrl}/v1/public/characters`;
-
-  let ts = Date.now().toString();
-  let hash = getHash(ts, privateKey, apiKey);
-
-  // let url = `${baseUrl}?ts=${ts}&apikey=${apiKey}&hash=${hash}&nameStartsWith=${value}`;
-  let url = `${baseUrl}?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
+  let url = await fetchHeroes(
+    "/v1/public/characters",
+    apiUrl,
+    apiKey,
+    privateKey
+  );
 
   let res = await fetch(url);
 
@@ -51,17 +46,21 @@ export default function Home({ heroes }) {
         {console.log(heroes.data.results)}
         <div className="grid grid-cols-6 gap-5">
           {heroes.data.results.map((hero) => (
-            <div key={hero.id} className="bg-gray-400 p-3">
-              <div className="w-full h-64 relative">
-                <Image
-                  alt={hero.name}
-                  src={`${hero.thumbnail.path}.${hero.thumbnail.extension}`}
-                  layout="fill"
-                  className="object-top object-cover w-10"
-                />
+            <Link href={`characters/${hero.id}`} key={hero.id}>
+              <div className="shadow bg-white p-3 cursor-pointer">
+                <div className="w-full h-64 relative">
+                  <Image
+                    alt={hero.name}
+                    src={`${hero.thumbnail.path}.${hero.thumbnail.extension}`}
+                    layout="fill"
+                    className="object-top object-cover w-10"
+                  />
+                </div>
+                <h1 className="text-xl uppercase font-robotoCondensed font-bold text-center">
+                  {hero.name}
+                </h1>
               </div>
-              <h1 className="text-2xl capitalize">{hero.name}</h1>
-            </div>
+            </Link>
           ))}
         </div>
       </main>

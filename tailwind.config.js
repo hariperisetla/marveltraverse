@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
+        robotoCondensed: ["Roboto Condensed", "sans-serif"],
         marvel: ["Marvel Regular", "sans-serif"],
       },
     },
